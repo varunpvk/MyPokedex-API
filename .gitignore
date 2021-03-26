@@ -1,0 +1,12 @@
+﻿/.vs/MyPokedexAPI
+/MyPokedex.ApplicationServices/obj
+/MyPokedex.Core/bin/Debug/netcoreapp3.1
+/MyPokedex.Core/obj/Debug/netcoreapp3.1
+/MyPokedex.Core/obj
+/MyPokedex.Infrastructure/obj/Debug/netcoreapp3.1
+/MyPokedex.Infrastructure/obj
+/MyPokedex.Tests/obj/Debug/netcoreapp3.1
+/MyPokedex.Tests/obj
+/MyPokedexAPI/bin/Debug/netcoreapp3.1
+/MyPokedexAPI/obj/Debug/netcoreapp3.1
+/MyPokedexAPI/obj
