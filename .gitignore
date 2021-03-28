@@ -10,3 +10,6 @@
 /MyPokedexAPI/bin/Debug/netcoreapp3.1
 /MyPokedexAPI/obj/Debug/netcoreapp3.1
 /MyPokedexAPI/obj
+/MyPokedex.ApplicationServices/bin/Debug/netcoreapp3.1
+/MyPokedex.Infrastructure/bin/Debug/netcoreapp3.1
+/MyPokedex.Tests/bin/Debug/netcoreapp3.1
