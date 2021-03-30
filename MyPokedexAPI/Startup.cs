@@ -7,9 +7,14 @@ namespace MyPokedexAPI
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
+    using MyPokedex.API;
+    using MyPokedex.Infrastructure.FunTranslationsClient;
+    using MyPokedex.Infrastructure.FunTranslationsClient.Config;
+    using MyPokedex.Infrastructure.PokeAPIClient;
+    using MyPokedex.Infrastructure.PokeAPIClient.Config;
     using System;
-    using System.IO;
-    using System.Reflection;
+    using System.Net;
+    using System.Net.Http;
 
     public class Startup
     {
@@ -24,23 +29,56 @@ namespace MyPokedexAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvcCore().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-            services.AddControllers();
-            services.AddSwaggerGen(o =>
-            {
-                o.SwaggerDoc("v1", new OpenApiInfo
-                {
+            services.AddControllers(options => options.Filters.Add(new HttpResponseExceptionFilter()));
+            services.AddSwaggerGen(o => {
+                o.SwaggerDoc("v1", new OpenApiInfo {
                     Title = "My Pokedex API",
                     Version = "1.0.0"
                 });
             });
+            services.AddSingleton<IPokeApiClientConfig, PokeApiClientConfig>();
+            services.AddSingleton<ITranslationsClientConfig, TranslationsClientConfig>();
+            services.AddHttpClient<IPokeService, PokeService>()
+                .ConfigureHttpClient((serviceProvider, httpClient) => {
+                    var clientConfig = serviceProvider.GetRequiredService<IPokeApiClientConfig>();
+                    httpClient.BaseAddress = clientConfig.BaseUri;
+                    httpClient.Timeout = TimeSpan.FromSeconds(clientConfig.Timeout);
+                    httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+                })
+                .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+                .ConfigurePrimaryHttpMessageHandler(x =>
+                new HttpClientHandler {
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                    UseCookies = false,
+                    AllowAutoRedirect = false,
+                    UseDefaultCredentials = true,
+                });
+
+            services.AddHttpClient<ITranslationsService, TranslationsService>()
+                .ConfigureHttpClient((serviceProvider, httpClient) => {
+                    var clientConfig = serviceProvider.GetRequiredService<ITranslationsClientConfig>();
+                    httpClient.BaseAddress = clientConfig.BaseUri;
+                    httpClient.Timeout = TimeSpan.FromSeconds(clientConfig.Timeout);
+                    httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+                })
+                .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+                .ConfigurePrimaryHttpMessageHandler(x =>
+                new HttpClientHandler {
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                    UseCookies = false,
+                    AllowAutoRedirect = false,
+                    UseDefaultCredentials = true,
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment()) {
+                app.UseExceptionHandler("/error-local-development");
+            }
+            else {
+                app.UseExceptionHandler("/error");
             }
 
             app.UseHttpsRedirection();
@@ -49,15 +87,13 @@ namespace MyPokedexAPI
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
+            app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(o =>
-            {
+            app.UseSwaggerUI(o => {
                 o.SwaggerEndpoint("/swagger/v1/swagger.json", "My Pokedex API");
             });
         }
