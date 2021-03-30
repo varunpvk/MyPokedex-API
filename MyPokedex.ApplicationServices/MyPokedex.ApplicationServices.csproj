@@ -10,4 +10,9 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MyPokedex.Core\MyPokedex.Core.csproj" />
+    <ProjectReference Include="..\MyPokedex.Infrastructure\MyPokedex.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
