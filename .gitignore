@@ -13,3 +13,8 @@
 /MyPokedex.ApplicationServices/bin/Debug/netcoreapp3.1
 /MyPokedex.Infrastructure/bin/Debug/netcoreapp3.1
 /MyPokedex.Tests/bin/Debug/netcoreapp3.1
+/MyPokedex.ApplicationServices/bin/Release/netcoreapp3.1
+/MyPokedex.Core/bin/Release/netcoreapp3.1
+/MyPokedex.Infrastructure/bin/Release/netcoreapp3.1
+/MyPokedex.Tests/bin/Release/netcoreapp3.1
+/MyPokedexAPI/bin/Release/netcoreapp3.1

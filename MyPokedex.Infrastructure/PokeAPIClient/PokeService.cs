@@ -3,7 +3,6 @@
     using MyPokedex.Core;
     using Newtonsoft.Json;
     using System.Net.Http;
-    using System.Threading;
     using System.Threading.Tasks;
 
     public class PokeService : IPokeService
@@ -16,9 +15,9 @@
             this.httpClient = httpClient;
         }
 
-        public async Task<PokemonInfo> GetBasicPokemonInfoAsync(string name, CancellationToken cancellationToken)
+        public async Task<PokemonInfo> GetBasicPokemonInfoAsync(string name)
         {
-            var response = await this.httpClient.GetAsync($"{urlString}/{name}", cancellationToken);
+            var response = await this.httpClient.GetAsync($"{urlString}/{name}");
 
             if (response.IsSuccessStatusCode) {
                 var pokemonInfo = await response.Content.ReadAsStringAsync();

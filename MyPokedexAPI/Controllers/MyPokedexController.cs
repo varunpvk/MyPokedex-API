@@ -1,8 +1,8 @@
 ﻿namespace MyPokedexAPI.Controllers
 {
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using MyPokedex.Core;
+    using MyPokedex.Infrastructure.FunTranslationsClient;
     using MyPokedex.Infrastructure.PokeAPIClient;
     using MyPokedexAPI.Routes;
     using System.Linq;
@@ -13,10 +13,12 @@
     public class MyPokedexController : Controller
     {
         private readonly IPokeService pokeService;
+        private readonly ITranslationsService translationsService;
 
-        public MyPokedexController(IPokeService pokeService)
+        public MyPokedexController(IPokeService pokeService, ITranslationsService translationsService)
         {
             this.pokeService = pokeService;
+            this.translationsService = translationsService;
         }
 
         [HttpGet]
@@ -26,7 +28,7 @@
             if (string.IsNullOrEmpty(name))
                 return BadRequest();
 
-            var response = await this.pokeService.GetBasicPokemonInfoAsync(name, new System.Threading.CancellationToken());
+            var response = await this.pokeService.GetBasicPokemonInfoAsync(name);
             var PokedexResponse = new PokedexResponse {
                 Name = response.Name,
                 Description = response.FlavorTextEntries.First(o => o.Language.Name == "en").FlavorText.Replace("\n", "").Replace("\f", ""),
@@ -38,10 +40,13 @@
 
         [HttpGet]
         [Route(PokedexRoutes.translatedInfo)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PokedexResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<PokedexResponse>> GetTranslatedInfo(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                return BadRequest();
+
+            var response = await this.translationsService.GetShakespheareTranslationAsync(name);
+
             return Ok(new PokedexResponse());
         }
     }

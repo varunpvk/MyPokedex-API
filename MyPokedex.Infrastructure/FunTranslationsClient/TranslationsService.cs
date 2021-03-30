@@ -5,7 +5,6 @@
     using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.Net.Http;
-    using System.Threading;
     using System.Threading.Tasks;
 
     public class TranslationsService : ITranslationsService
@@ -19,13 +18,13 @@
             this.httpClient = httpClient;
         }
 
-        public async Task<TranslatedShakespheareInfo> GetShakespheareTranslationAsync(string inputText, CancellationToken cancellationToken)
+        public async Task<TranslatedShakespheareInfo> GetShakespheareTranslationAsync(string inputText)
         {
             var query = new Dictionary<string, string>() {
                 ["text"] = inputText
             };
 
-            var response = await this.httpClient.GetAsync(QueryHelpers.AddQueryString(GetBaseUri(shakespeareApiUrl), query), cancellationToken).ConfigureAwait(false);
+            var response = await this.httpClient.GetAsync(QueryHelpers.AddQueryString(GetBaseUri(shakespeareApiUrl), query)).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode) {
                 var shakespeareInfoResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -36,13 +35,13 @@
             }
         }
 
-        public async Task<TranslatedYodaInfo> GetYodaTranslationAsync(string inputText, CancellationToken cancellationToken)
+        public async Task<TranslatedYodaInfo> GetYodaTranslationAsync(string inputText)
         {
             var query = new Dictionary<string, string>() {
                 ["text"] = inputText
             };
 
-            var response = await this.httpClient.GetAsync(QueryHelpers.AddQueryString(GetBaseUri(yodaApiUrl), query), cancellationToken).ConfigureAwait(false);
+            var response = await this.httpClient.GetAsync(QueryHelpers.AddQueryString(GetBaseUri(yodaApiUrl), query)).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode) {
                 var shakespeareInfoResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
