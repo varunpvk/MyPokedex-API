@@ -28,7 +28,7 @@
             public async Task Given_ValidInput_When_GetShakespheareTranslationAsync_IsCalled_Returns_ValidResponse()
             {
                 //Arrange
-                var mockResponse = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(FunTranslationsClientData.jsonData_Valid) };
+                var mockResponse = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(FunTranslationsClientData.jsonData_Valid_Shakespeare) };
                 mockResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                 mockHttpMessageHandler.Protected().Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
@@ -127,7 +127,7 @@
             public async Task Given_ValidInput_When_GetYodaTranslationAsync_IsCalled_Returns_ValidResponse()
             {
                 //Arrange
-                var mockResponse = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(FunTranslationsClientData.jsonData_Valid) };
+                var mockResponse = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(FunTranslationsClientData.jsonData_Valid_Yoda) };
                 mockResponse.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                 mockHttpMessageHandler.Protected().Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
@@ -144,7 +144,7 @@
                 //Assert
                 Assert.NotNull(response);
                 Assert.Equal("It can freely recombine its own cellular structure totransform into other life-forms.", response.Content.OriginalText);
-                Assert.Equal("'t can freely recombine its own cellular structure totransform into other life-forms.", response.Content.TranslatedText);
+                Assert.Equal("freely recombining on its own cellular structure, \nit can transform into other life-forms.", response.Content.TranslatedText);
             }
 
             [Fact]

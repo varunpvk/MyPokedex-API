@@ -1,10 +1,15 @@
-﻿namespace MyPokedex.Tests.Data
+﻿using MyPokedex.Core;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
+
+namespace MyPokedex.Tests.Data
 {
     public static class PokeApiClientData
     {
         public const string jsonData = @"{
-                        'flavor_text_entries': [
-                            {
+                        'flavor_text_entries': 
+                            [{
                                 'flavor_text': 'It was created by\na scientist after\nyears of horrific\fgene splicing and\nDNA engineering\nexperiments.',
                                 'language': {
                                             'name': 'en',
@@ -28,7 +33,7 @@
                                 'id': 150,
                                 'is_baby': false}";
 
-        public const string jsonData_MissingProperty = @"{
+        public const string jsonData_MissingDescription = @"{
                         'flavor_text_entries': [
                             {
                                 'language': {
@@ -46,5 +51,14 @@
                                     'name': 'rare',
                                     'url': 'https://pokeapi.co/api/v2/pokemon-habitat/5/'
                                    }}";
+
+        public const string jsonData_MissingProperty = @"{
+                        'is_legendary': true,
+                        'name': 'mewtwo',
+                        'habitat': {
+                                    'name': 'rare',
+                                    'url': 'https://pokeapi.co/api/v2/pokemon-habitat/5/'
+                                   }}";
+
     }
 }
