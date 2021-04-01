@@ -99,7 +99,7 @@
             Assert.NotNull(response);
             Assert.Equal("mewtwo", response.Name);
             Assert.True(response.IsLegendary);
-            Assert.Null(response.FlavorTextEntries.First().FlavorText);
+            Assert.Null(response.FlavorTextEntries);
             Assert.Equal("rare", response.Habitat.Name);
         }
     }

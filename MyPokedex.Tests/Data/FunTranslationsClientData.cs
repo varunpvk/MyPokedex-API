@@ -1,8 +1,13 @@
-﻿namespace MyPokedex.Tests.Data
+﻿using MyPokedex.Core;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
+
+namespace MyPokedex.Tests.Data
 {
     public static class FunTranslationsClientData
     {
-        public const string jsonData_Valid = @"{
+        public const string jsonData_Valid_Shakespeare = @"{
                                          'success': {
                                                      'total': 1
                                                      },
@@ -26,5 +31,15 @@
                                                             'text': 'It can freely recombine its own cellular structure totransform into other life-forms.',
                                                             'translation': 'shakespeare'
                                                             }}";
+
+        public const string jsonData_Valid_Yoda = @"{
+                                         'success': {
+                                                     'total': 1
+                                                     },
+                                         'contents': {
+                                                     'translated': 'freely recombining on its own cellular structure, \nit can transform into other life-forms.',
+                                                     'text': 'It can freely recombine its own cellular structure totransform into other life-forms.',
+                                                     'translation': 'shakespeare'
+                                                     }}";
     }
 }

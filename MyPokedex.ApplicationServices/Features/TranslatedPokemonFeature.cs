@@ -1,20 +1,23 @@
 ﻿namespace MyPokedex.ApplicationServices.Features
 {
+    using MyPokedex.Core;
     using MyPokedex.Core.DTOs;
     using MyPokedex.Infrastructure.FunTranslationsClient;
+    using MyPokedex.Infrastructure.PokeAPIClient;
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class TranslatedPokemonFeature : ITranslatedPokemonFeature
     {
         private readonly ITranslationsService translationsService;
-        private readonly IBasicPokemonFeature basicPokemonFeature;
+        private readonly IPokeService pokeService;
         private const string caveText = "cave";
 
-        public TranslatedPokemonFeature(IBasicPokemonFeature basicPokemonFeature, ITranslationsService translationsService)
+        public TranslatedPokemonFeature(IPokeService pokeService, ITranslationsService translationsService)
         {
+            this.pokeService = pokeService;
             this.translationsService = translationsService;
-            this.basicPokemonFeature = basicPokemonFeature;
         }
 
         public async Task<PokemonInfoDto> GetTranslatedPokemonInfoAsync(string name)
@@ -23,21 +26,31 @@
                 throw new ArgumentNullException("param: name cannot be null or empty");
 
             string translatedValue = string.Empty;
-            var pokemonInfoDto = await this.basicPokemonFeature.GetBasicPokemonInfoAsync(name).ConfigureAwait(false);
+            var pokemonInfo = await this.pokeService.GetBasicPokemonInfoAsync(name).ConfigureAwait(false);
 
-            if (isCaveOrLegendary(pokemonInfoDto)) {
-                var result = await this.translationsService.GetYodaTranslationAsync(pokemonInfoDto.Description).ConfigureAwait(false);
-                translatedValue = result.Content.TranslatedText ?? result.Content.OriginalText;
-            }
-            else {
-                var result = await this.translationsService.GetShakespheareTranslationAsync(pokemonInfoDto.Description).ConfigureAwait(false);
-                translatedValue = result.Content.TranslatedText ?? result.Content.OriginalText;
+            if (pokemonInfo != null && pokemonInfo.FlavorTextEntries != null && !string.IsNullOrEmpty(pokemonInfo.FlavorTextEntries.First().FlavorText)) {
+                if (isCaveOrLegendary(pokemonInfo)) {
+                    var result = await this.translationsService.GetYodaTranslationAsync(pokemonInfo.FlavorTextEntries.First().FlavorText).ConfigureAwait(false);
+                    translatedValue = result.Content.TranslatedText ?? result.Content.OriginalText;
+                }
+                else {
+                    var result = await this.translationsService.GetShakespheareTranslationAsync(pokemonInfo.FlavorTextEntries.First().FlavorText).ConfigureAwait(false);
+                    translatedValue = result.Content.TranslatedText ?? result.Content.OriginalText;
+                }
+
+                return new PokemonInfoDto {
+                    Name = pokemonInfo.Name,
+                    Description = translatedValue,
+                    Habitat = pokemonInfo.Habitat?.Name,
+                    IsLegendary = pokemonInfo.IsLegendary
+                };
             }
 
-            pokemonInfoDto.Description = translatedValue;
-            return pokemonInfoDto;
+            return default;
         }
 
-        private bool isCaveOrLegendary(PokemonInfoDto pokemonInfo) => pokemonInfo.Habitat.Equals(caveText) || pokemonInfo.IsLegendary;
+        private bool isCaveOrLegendary(PokemonInfo pokemonInfo) => 
+            (pokemonInfo.Habitat != null && pokemonInfo.Habitat.Name.Equals(caveText)) ||
+            pokemonInfo.IsLegendary;
     }
 }

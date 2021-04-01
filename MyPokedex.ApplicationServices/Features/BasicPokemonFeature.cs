@@ -1,5 +1,6 @@
 ﻿namespace MyPokedex.ApplicationServices.Features
 {
+    using MyPokedex.ApplicationServices.Helper;
     using MyPokedex.Core.DTOs;
     using MyPokedex.Infrastructure.PokeAPIClient;
     using System;
@@ -22,7 +23,7 @@
 
             var pokemonInfo = await this.pokeService.GetBasicPokemonInfoAsync(name).ConfigureAwait(false);
 
-            if (pokemonInfo != null) {
+            if (pokemonInfo != null && !pokemonInfo.IsDefault()) {
 
                 return new PokemonInfoDto {
                     Name = pokemonInfo.Name,
