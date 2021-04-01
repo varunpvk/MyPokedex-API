@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["MyPokedexAPI/MyPokedexAPI.csproj", "MyPokedexAPI/"]
-RUN dotnet restore "MyPokedexAPI/MyPokedexAPI.csproj"
+COPY ["MyPokedexAPI/MyPokedex.API.csproj", "MyPokedexAPI/"]
+RUN dotnet restore "MyPokedexAPI/MyPokedex.API.csproj"
 COPY . .
 WORKDIR "/src/MyPokedexAPI"
-RUN dotnet build "MyPokedexAPI.csproj" -c Release -o /app/build
+RUN dotnet build "MyPokedex.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "MyPokedexAPI.csproj" -c Release -o /app/publish
+RUN dotnet publish "MyPokedex.API.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "MyPokedexAPI.dll"]
+ENTRYPOINT ["dotnet", "MyPokedex.API.dll"]
