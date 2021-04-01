@@ -1,14 +1,13 @@
-﻿using Moq;
-using MyPokedex.ApplicationServices.Features;
-using MyPokedex.Core;
-using MyPokedex.Core.DTOs;
-using MyPokedexAPI.Controllers;
-using System;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace MyPokedex.Tests.API.Tests
+﻿namespace MyPokedex.Tests.API.Tests
 {
+    using Moq;
+    using MyPokedex.ApplicationServices.Features;
+    using MyPokedex.Core;
+    using MyPokedex.Core.DTOs;
+    using MyPokedexAPI.Controllers;
+    using System;
+    using System.Threading.Tasks;
+    using Xunit;
     public class MyPokedexControllerTests
     {
         private readonly Mock<IBasicPokemonFeature> mockBasicPokemonFeature = new Mock<IBasicPokemonFeature>();

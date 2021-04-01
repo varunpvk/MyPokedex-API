@@ -1,6 +1,5 @@
 ﻿namespace MyPokedex.ApplicationServices.Features
 {
-    using Microsoft.AspNetCore.Http;
     using MyPokedex.ApplicationServices.Helper;
     using MyPokedex.Core;
     using MyPokedex.Core.DTOs;
@@ -8,9 +7,7 @@
     using MyPokedex.Infrastructure.PokeAPIClient;
     using System;
     using System.Linq;
-    using System.Text.Encodings.Web;
     using System.Threading.Tasks;
-    using System.Web;
 
     public class TranslatedPokemonFeature : ITranslatedPokemonFeature
     {
@@ -39,11 +36,11 @@
                 if (isCaveOrLegendary(pokemonInfo)) {
 
                     var result = await this.translationsService.GetYodaTranslationAsync(description).ConfigureAwait(false);
-                    translatedValue = result.Content.TranslatedText ?? result.Content.OriginalText;
+                    translatedValue = result?.Content?.TranslatedText ?? result?.Content?.OriginalText;
                 }
                 else {
                     var result = await this.translationsService.GetShakespheareTranslationAsync(description).ConfigureAwait(false);
-                    translatedValue = result.Content.TranslatedText ?? result.Content.OriginalText;
+                    translatedValue = result?.Content?.TranslatedText ?? result?.Content?.OriginalText;
                 }
 
                 return new PokemonInfoDto {

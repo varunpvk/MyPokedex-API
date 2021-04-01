@@ -10,7 +10,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Xunit;
-
     public class BasicPokemonFeatureTests
     {
         private readonly Mock<IPokeService> mockPokeService = new Mock<IPokeService>();

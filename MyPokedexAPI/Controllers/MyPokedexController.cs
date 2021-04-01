@@ -24,12 +24,16 @@
         public async Task<ActionResult<PokedexResponse>> GetBasicInfo(string name)
         {
             var response = await this.basicPokemonFeature.GetBasicPokemonInfoAsync(name);
-            return new PokedexResponse {
-                Name = response.Name,
-                Description = response.Description,
-                Habitat = response.Habitat,
-                IsLegendary = response.IsLegendary
-            };
+            if (response != null) {
+                return new PokedexResponse {
+                    Name = response.Name,
+                    Description = response.Description,
+                    Habitat = response.Habitat,
+                    IsLegendary = response.IsLegendary
+                };
+            }
+
+            return BadRequest();
         }
 
         [HttpGet]
@@ -37,12 +41,16 @@
         public async Task<ActionResult<PokedexResponse>> GetTranslatedInfo(string name)
         {
             var response = await this.translatedPokemonFeature.GetTranslatedPokemonInfoAsync(name);
-            return new PokedexResponse {
-                Name = response.Name,
-                Description = response.Description,
-                Habitat = response.Habitat,
-                IsLegendary = response.IsLegendary
-            };
+            if (response != null) {
+                return new PokedexResponse {
+                    Name = response.Name,
+                    Description = response.Description,
+                    Habitat = response.Habitat,
+                    IsLegendary = response.IsLegendary
+                };
+            }
+
+            return BadRequest();
         }
     }
 }
