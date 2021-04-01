@@ -5,8 +5,10 @@
     using Microsoft.AspNetCore.Mvc;
     using MyPokedexAPI.Routes;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     [ApiController]
+    [ExcludeFromCodeCoverage]
     public class ErrorController : Controller
     {
         [Route(PokedexRoutes.errorPathDev)]
