@@ -100,3 +100,9 @@ dotnet test "..\ReleaseBits\MyPokedex.Tests.dll"
 * SOLID principles
 
 ![Onion](Onion.png)
+
+## What could be different in production?
+
+* This project is lacking resilience in its design. For instance, when we fail to translate a text, we return original text.
+* This can be improved by implementing fallback or cache policy to apply whenever an exception is raised.
+* Another food for thought, is to cache the translation response and maintain the translations in a redis cache cluster. This would reduce the network bandwidth greatly, and helps in improving the concurrency request handling efficiency. 
