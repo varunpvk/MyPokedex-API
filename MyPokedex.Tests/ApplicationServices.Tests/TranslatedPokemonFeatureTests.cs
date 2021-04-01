@@ -1,19 +1,18 @@
-﻿using Moq;
-using MyPokedex.ApplicationServices.Features;
-using MyPokedex.Core;
-using MyPokedex.Infrastructure.FunTranslationsClient;
-using MyPokedex.Infrastructure.PokeAPIClient;
-using MyPokedex.Tests.Data;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace MyPokedex.Tests.ApplicationServices.Tests
+﻿namespace MyPokedex.Tests.ApplicationServices.Tests
 {
+    using Moq;
+    using MyPokedex.ApplicationServices.Features;
+    using MyPokedex.Core;
+    using MyPokedex.Infrastructure.FunTranslationsClient;
+    using MyPokedex.Infrastructure.PokeAPIClient;
+    using MyPokedex.Tests.Data;
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Xunit;
+
     public class TranslatedPokemonFeatureTests
     {
         private readonly Mock<IPokeService> mockPokeService = new Mock<IPokeService>();

@@ -3,7 +3,6 @@
     using AutoFixture;
     using Moq;
     using Moq.Protected;
-    using MyPokedex.Core;
     using MyPokedex.Infrastructure.FunTranslationsClient;
     using MyPokedex.Tests.Data;
     using System;
@@ -49,7 +48,7 @@
             }
 
             [Fact]
-            public async Task Given_NotFoundResponse_When_GetShakespheareTranslationAsync_IsCalled_Throws_Exception()
+            public async Task Given_Exception_When_GetShakespheareTranslationAsync_IsCalled_Returns_OriginalValue()
             {
                 //Arrange
                 var mockResponse = new HttpResponseMessage(HttpStatusCode.NotFound) { Content = new StringContent("") };
@@ -62,9 +61,14 @@
 
                 mockHttpClientFactory.Setup(o => o.CreateClient(It.IsAny<string>())).Returns(client);
 
-                //Act & Assert
+                //Act 
                 var translationsService = new TranslationsService(client);
-                await Assert.ThrowsAsync<HttpResponseException>(() => translationsService.GetShakespheareTranslationAsync("abcd"));
+                var result = await translationsService.GetShakespheareTranslationAsync("abcd").ConfigureAwait(false);
+
+                //Assert
+                Assert.NotNull(result);
+                Assert.Equal("abcd", result.Content.OriginalText);
+                Assert.Null(result.Content.TranslatedText);
             }
 
             [Fact]
@@ -148,7 +152,7 @@
             }
 
             [Fact]
-            public async Task Given_NotFoundResponse_When_GetYodaTranslationAsync_IsCalled_Throws_Exception()
+            public async Task Given_Exception_When_GetYodaTranslationAsync_IsCalled_Returns_OriginalValue()
             {
                 //Arrange
                 var mockResponse = new HttpResponseMessage(HttpStatusCode.NotFound) { Content = new StringContent("") };
@@ -163,7 +167,12 @@
 
                 //Act & Assert
                 var translationsService = new TranslationsService(client);
-                await Assert.ThrowsAsync<HttpResponseException>(() => translationsService.GetYodaTranslationAsync("abcd"));
+                var result = await translationsService.GetYodaTranslationAsync("abcd").ConfigureAwait(false);
+
+                //Assert
+                Assert.NotNull(result);
+                Assert.Equal("abcd", result.Content.OriginalText);
+                Assert.Null(result.Content.TranslatedText);
             }
 
             [Fact]

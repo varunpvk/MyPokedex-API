@@ -26,12 +26,17 @@
 
             var response = await this.httpClient.GetAsync(QueryHelpers.AddQueryString(GetBaseUri(shakespeareApiUrl), query)).ConfigureAwait(false);
 
+
             if (response.IsSuccessStatusCode) {
                 var shakespeareInfoResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return JsonConvert.DeserializeObject<TranslatedShakespheareInfo>(shakespeareInfoResponse);
             }
             else {
-                throw new HttpResponseException { Value = response.ReasonPhrase, Status = response.StatusCode };
+                return new TranslatedShakespheareInfo {
+                    Content = new Contents {
+                        OriginalText = inputText,
+                    }
+                };
             }
         }
 
@@ -48,7 +53,11 @@
                 return JsonConvert.DeserializeObject<TranslatedYodaInfo>(shakespeareInfoResponse);
             }
             else {
-                throw new HttpResponseException { Value = response.ReasonPhrase, Status = response.StatusCode };
+                return new TranslatedYodaInfo {
+                    Content = new Contents {
+                        OriginalText = inputText,
+                    }
+                };
             }
         }
 

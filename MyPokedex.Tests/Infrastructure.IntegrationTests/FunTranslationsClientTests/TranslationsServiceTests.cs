@@ -1,7 +1,6 @@
 ﻿namespace MyPokedex.Tests.Infrastructure.IntegrationTests.FunTranslationsClientTests
 {
     using Microsoft.Extensions.Configuration;
-    using MyPokedex.Core;
     using MyPokedex.Infrastructure.FunTranslationsClient;
     using MyPokedex.Tests.Helper;
     using System;
@@ -50,18 +49,6 @@
                 //Assert
                 Assert.NotNull(result);
             }
-
-            [Fact]
-            public async Task Given_InValidRequest_When_GetShakespheareTranslationAsync_IsCalled_Throws_HttpResponseException()
-            {
-                //Arrange
-                var httpClient = new HttpClient() { BaseAddress = new Uri(config["TranslationsService:BaseUri"].Replace("translate","")) };
-                var translationsService = new TranslationsService(httpClient);
-                var inputText = "It can freely recombine its own cellular structure totransform into other life-forms.";
-
-                //Act & Assert
-                await Assert.ThrowsAsync<HttpResponseException>(() => translationsService.GetShakespheareTranslationAsync(inputText));
-            }
         }
 
         public class YodaTests
@@ -98,18 +85,6 @@
 
                 //Assert
                 Assert.NotNull(result);
-            }
-
-            [Fact]
-            public async Task Given_InValidRequest_When_GetYodaTranslationAsync_IsCalled_Throws_HttpResponseException()
-            {
-                //Arrange
-                var httpClient = new HttpClient() { BaseAddress = new Uri(config["TranslationsService:BaseUri"].Replace("translate", "")) };
-                var translationsService = new TranslationsService(httpClient);
-                var inputText = "It can freely recombine its own cellular structure totransform into other life-forms.";
-
-                //Act & Assert
-                await Assert.ThrowsAsync<HttpResponseException>(() => translationsService.GetYodaTranslationAsync(inputText));
             }
         }
     }
