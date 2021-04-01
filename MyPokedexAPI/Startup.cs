@@ -8,6 +8,7 @@ namespace MyPokedexAPI
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
     using MyPokedex.API;
+    using MyPokedex.ApplicationServices.Features;
     using MyPokedex.Infrastructure.FunTranslationsClient;
     using MyPokedex.Infrastructure.FunTranslationsClient.Config;
     using MyPokedex.Infrastructure.PokeAPIClient;
@@ -69,6 +70,9 @@ namespace MyPokedexAPI
                     AllowAutoRedirect = false,
                     UseDefaultCredentials = true,
                 });
+
+            services.AddScoped<IBasicPokemonFeature, BasicPokemonFeature>();
+            services.AddScoped<ITranslatedPokemonFeature, TranslatedPokemonFeature>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

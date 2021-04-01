@@ -1,12 +1,16 @@
 ﻿namespace MyPokedex.ApplicationServices.Features
 {
+    using Microsoft.AspNetCore.Http;
+    using MyPokedex.ApplicationServices.Helper;
     using MyPokedex.Core;
     using MyPokedex.Core.DTOs;
     using MyPokedex.Infrastructure.FunTranslationsClient;
     using MyPokedex.Infrastructure.PokeAPIClient;
     using System;
     using System.Linq;
+    using System.Text.Encodings.Web;
     using System.Threading.Tasks;
+    using System.Web;
 
     public class TranslatedPokemonFeature : ITranslatedPokemonFeature
     {
@@ -23,18 +27,22 @@
         public async Task<PokemonInfoDto> GetTranslatedPokemonInfoAsync(string name)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("param: name cannot be null or empty");
+                throw new ArgumentNullException(nameof(name));
 
             string translatedValue = string.Empty;
             var pokemonInfo = await this.pokeService.GetBasicPokemonInfoAsync(name).ConfigureAwait(false);
 
             if (pokemonInfo != null && pokemonInfo.FlavorTextEntries != null && !string.IsNullOrEmpty(pokemonInfo.FlavorTextEntries.First().FlavorText)) {
+
+                var description = pokemonInfo.FlavorTextEntries.First().FlavorText.RemoveEscapeSequenceIfAny();
+
                 if (isCaveOrLegendary(pokemonInfo)) {
-                    var result = await this.translationsService.GetYodaTranslationAsync(pokemonInfo.FlavorTextEntries.First().FlavorText).ConfigureAwait(false);
+
+                    var result = await this.translationsService.GetYodaTranslationAsync(description).ConfigureAwait(false);
                     translatedValue = result.Content.TranslatedText ?? result.Content.OriginalText;
                 }
                 else {
-                    var result = await this.translationsService.GetShakespheareTranslationAsync(pokemonInfo.FlavorTextEntries.First().FlavorText).ConfigureAwait(false);
+                    var result = await this.translationsService.GetShakespheareTranslationAsync(description).ConfigureAwait(false);
                     translatedValue = result.Content.TranslatedText ?? result.Content.OriginalText;
                 }
 
@@ -49,7 +57,7 @@
             return default;
         }
 
-        private bool isCaveOrLegendary(PokemonInfo pokemonInfo) => 
+        private bool isCaveOrLegendary(PokemonInfo pokemonInfo) =>
             (pokemonInfo.Habitat != null && pokemonInfo.Habitat.Name.Equals(caveText)) ||
             pokemonInfo.IsLegendary;
     }

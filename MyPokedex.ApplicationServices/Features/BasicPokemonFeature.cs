@@ -19,7 +19,7 @@
         public async Task<PokemonInfoDto> GetBasicPokemonInfoAsync(string name)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("param: name cannot be null or empty");
+                throw new ArgumentNullException(nameof(name));
 
             var pokemonInfo = await this.pokeService.GetBasicPokemonInfoAsync(name).ConfigureAwait(false);
 
