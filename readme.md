@@ -100,3 +100,7 @@ dotnet test "..\ReleaseBits\MyPokedex.Tests.dll"
 * SOLID principles
 
 ![Onion](Onion.png)
+
+## Docker Image
+
+**Link**: https://1drv.ms/u/s!Ag7NKIWnRA_ugYYtCPsUffHGn4hVQw?e=reNtdm
