@@ -12,9 +12,9 @@ Powered by Swagger, you can access the document from https://mypokedexapi.azurew
 **Step1: Git Clone** 
 
 ```` 
-HTTPS ⮧
+HTTPS
 git clone https://github.com/varunpvk/MyPokedex-API.git 
-SSH ⮧
+SSH
 git clone git@github.com:varunpvk/MyPokedex-API.git
 ````
 
