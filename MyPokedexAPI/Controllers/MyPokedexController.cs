@@ -52,5 +52,12 @@
 
             return BadRequest();
         }
+
+        [HttpGet]
+        [Route(PokedexRoutes.testEndpoint)]
+        public async Task<bool> IsEndpointTested()
+        {
+            return true;
+        }
     }
 }
