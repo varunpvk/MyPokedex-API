@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - MyPokedexAPI
+name: Build and deploy ASP.Net Core app to Azure Web App - mypokedexapi
 
 on:
   push:
@@ -50,7 +50,7 @@ jobs:
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'MyPokedexAPI'
+        app-name: 'mypokedexapi'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_c7ebbbe5e3144a53b1f2fbb1609255e1 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_ec52aa8bc3864e3190cc10284185397a }}
         package: .
