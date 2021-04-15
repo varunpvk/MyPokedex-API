@@ -52,5 +52,7 @@ jobs:
       with:
         app-name: 'mypokedexapi'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_ec52aa8bc3864e3190cc10284185397a }}
+        creds: ${{ secrets.ENV_SECRET }}
+        allow-no-subscriptions: true
+        #publish-profile: ${{ secrets.AzureAppService_PublishProfile_ec52aa8bc3864e3190cc10284185397a }}
         package: .

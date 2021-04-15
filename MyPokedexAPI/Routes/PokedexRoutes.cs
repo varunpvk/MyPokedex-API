@@ -7,5 +7,6 @@
         public const string translatedInfo = "pokemon/translated";
         public const string errorPath = "/error";
         public const string errorPathDev = "/error-local-development";
+        public const string testEndpoint = "test";
     }
 }
