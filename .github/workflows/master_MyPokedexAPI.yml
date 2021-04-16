@@ -49,7 +49,7 @@ jobs:
     - name: Login Azure
       uses: azure/actions/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C7EBBBE5E3144A53B1F2FBB1609255E1 }}
         environment: 'AzureStack'
 
     - name: Deploy to Azure Web App
@@ -58,7 +58,6 @@ jobs:
       with:
         app-name: 'mypokedexapi'
         slot-name: 'production'
-        #creds: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C7EBBBE5E3144A53B1F2FBB1609255E1 }}
         allow-no-subscriptions: true
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C7EBBBE5E3144A53B1F2FBB1609255E1 }}
         package: .
