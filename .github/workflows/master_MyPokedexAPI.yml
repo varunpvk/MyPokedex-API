@@ -46,12 +46,6 @@ jobs:
       with:
         name: .net-app
         
-    - name: Login Azure
-      uses: azure/actions/login@v1
-      with:
-        creds: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C7EBBBE5E3144A53B1F2FBB1609255E1 }}
-        environment: 'AzureStack'
-
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
