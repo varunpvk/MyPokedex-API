@@ -1,0 +1,6 @@
+properties:
+  PUBLISH_PROVIDER_TYPE: azureAppServiceWindows
+  AZURE_RESOURCEID: /subscriptions/87c073c0-8eba-4409-90c5-8262391424ae/resourceGroups/PokedexAPI/providers/Microsoft.Web/sites/MyPokedexAPI
+  AZURE_APIM_RESOURCEID: /subscriptions/87c073c0-8eba-4409-90c5-8262391424ae/resourceGroups/MyPokedexResource/providers/Microsoft.ApiManagement/service/MyPokedexAPIapi/apis/MyPokedexAPI
+  AZURE_APIM_OPENDOCUMENTNAME: v1
+  AZURE_APIM_UPDATEONPUBLISH: true
